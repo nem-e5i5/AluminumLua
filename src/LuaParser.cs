@@ -150,7 +150,6 @@ namespace AluminumLua {
 
                     case "if":
                         ParseConditionalStatement();
-                        if (CurrentExecutor is CompilerExecutor) CurrentExecutor.PopStack();
                         break;
                     default:
                         if (Peek() == '=')
@@ -308,20 +307,26 @@ namespace AluminumLua {
 
                 case 'o':
                 case 'O':
-                    Consume();
-                    if (char.ToLowerInvariant(Consume()) != 'r')
-                        Err("unexpected 'o'");
+                    char[] buff1 = new char[2];
+                    input.Read(buff1, 0, 2);
+                    if (char.ToLower(buff1[1]) != 'r')
+                    {
+                        input = new StringReader(new string(buff1) + input.ReadToEnd());
+                        goto default;
+                    }
                     ParseRVal();
                     CurrentExecutor.Or();
                     break;
 
                 case 'a':
                 case 'A':
-                    Consume();
-                    if (char.ToLowerInvariant(Consume()) != 'n')
-                        Err("unexpected 'a'");
-                    if (char.ToLowerInvariant(Consume()) != 'd')
-                        Err("unexpected 'an'");
+                    char[] buff2 = new char[3];
+                    input.Read(buff2, 0, 3);
+                    if (char.ToLower(buff2[1]) != 'n' || char.ToLower(buff2[2]) != 'd')
+                    {
+                        input = new StringReader(new string(buff2) + input.ReadToEnd());
+                        goto default;
+                    }
                     ParseRVal();
                     CurrentExecutor.And();
                     break;

@@ -280,6 +280,7 @@ namespace AluminumLua.Executors {
                 Expression.Call(Then, LuaFunction_Invoke, Expression.NewArrayInit(typeof(LuaObject), new Expression[]{})), 
                 Expression.Call(Else, LuaFunction_Invoke, Expression.NewArrayInit(typeof(LuaObject), new Expression[]{}))
             ));
+            PopStack();
         }
 
         public virtual void Greater()

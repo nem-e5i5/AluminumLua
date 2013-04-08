@@ -5,4 +5,7 @@
 	if (1 > 1) or  (2 == 1) then print "yes" else print "no!" end
 	if (2 > 1) or  (2 ~= 1) then print "yes" else print "no!" end
 end
+local aaa = 1
+aaa = 5
+print(aaa)
 test()
